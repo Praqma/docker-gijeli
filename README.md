@@ -10,7 +10,7 @@ Gijeli Docker Server
 Contents of this repo. are used as context for building docker image of Praqma's gijeli server.
 Each change committed to this repo. triggers an automated build in jenkins from where every successful build pushes gijeli server image to Praqma's docker repo. issuing a unique _version nember_.
 
-visit our jenkins page for this job can be [here](http://code.praqma.net/ci/view/GiJeLi/job/GiJeLi%20Docker%20Server/)...
+jenkins page for this job can be visited [here](http://code.praqma.net/ci/view/GiJeLi/job/GiJeLi%20Docker%20Server/)...
 
 ## Usage
 
@@ -27,7 +27,7 @@ The [\<site-source>]() is the directory on the Docker host with the source for t
 
 ## Support 
 
-You are invited to seek support or place a request for new features by e-mailing our support team at [support@praqma.net](). 
+You are invited to seek support or place a request for new features by e-mailing our support team at [support@praqma.net]()
 
 _Note:_ Please, do mention **Praqma/gijeli** in your subject while mailing to our support team
 
