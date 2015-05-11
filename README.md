@@ -4,7 +4,6 @@ Gijeli Docker Server
 
 1. [Gijeli Docker Repo.](https://registry.hub.docker.com/u/praqma/gijeli/)
 2. [Gijeli GitHub Repo.](https://github.com/Praqma/docker-gijeli.git) (Docker Image Context Files)
-3. [Pinside Repo.](https://github.com/Praqma/pinside.git)(Pinside Markdown Pages)
 
 ## Docker Image
 
