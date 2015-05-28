@@ -8,7 +8,8 @@ RUN apt-get update \
 	&& curl -sL https://deb.nodesource.com/setup | bash - \
 	&& apt-get install -y ruby ruby-dev make nodejs
 
-RUN gem install jekyll http json rdiscount --no-ri --no-rdoc
+RUN gem install json rdiscount --no-ri --no-rdoc
+RUN gem install jekyll --no-ri --no-rdoc
 
 WORKDIR /data
 
