@@ -1,0 +1,36 @@
+
+
+HELP TEXT:
+....gijeli docker image buils and/or serves jekyll pages and validates your web project by running link-checker....
+¤¤¤¤¤  gijeli package was conceptualized and developed in PRAQMA, The House of DevOps & CoDers' ¤¤¤¤¤
+
+                                    -Power User-
+  docker run -v $(pwd):/data -p <port>:4000 praqma/gijeli:[vNo.] <jekyll/linkchecker command>
+windows:
+  docker run -v /$(pwd):\\data -p <port>:4000 praqma/gijeli:[vNo.] <jekyll/linkchecker command>
+
+
+                                      -User-
+--> build  -Build a jekyll project
+
+  docker run -v $(pwd):/data praqma/gijeli:[vNo.] build
+windows:
+  docker run -v /$(pwd):\\data praqma/gijeli:[vNo.] build
+
+--> serve  -Serve jekyll pages
+
+  docker run -v $(pwd):/data -p <port>:4000 praqma/gijeli:[vNo.] serve
+windows:
+  docker run -v /$(pwd):\\data -p <port>:4000 praqma/gijeli:[vNo.] serve
+
+--> check  -Run link-checker on given URL
+
+  docker run -v $(pwd):/data praqma/gijeli:[vNo.] check <URL: for example. http://www.code-conf.com >
+windows:
+  docker run -v /$(pwd):\\data praqma/gijeli:[vNo.] check <URL: for example http://www.code-conf.com >
+
+--> serve check  -Serve jekyll pages and run linkchecker, within the same container
+
+  docker run -v $(pwd):/data -p <port>:4000 praqma/gijeli:[vNo.] serve check
+windows:
+  docker run -v /$(pwd):\\data -p <port>:4000 praqma/gijeli:[vNo.] serve check

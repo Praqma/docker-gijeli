@@ -1,7 +1,9 @@
-FROM debian:8.0
+FROM ubuntu:trusty
 
-MAINTAINER Jan Sorensen <jas@praqma.net>
+MAINTAINER Ali <ali@praqma.net>
 
+WORKDIR /data
+EXPOSE 4000
 RUN apt-get update \
 	&& apt-get install -y apt-utils \
 	&& apt-get install -y curl gcc \
@@ -11,10 +13,10 @@ RUN apt-get update \
 RUN gem install json rdiscount --no-ri --no-rdoc
 RUN gem install jekyll --no-ri --no-rdoc
 
-WORKDIR /data
+RUN apt-get update
+RUN apt-cache showpkg linkchecker
+RUN apt-get install -y linkchecker
 
-EXPOSE 4000
-
-ENTRYPOINT ["jekyll"]
-
-CMD ["--help"]
+COPY ./entry.sh /
+COPY ./help.txt /
+ENTRYPOINT ["/entry.sh"]

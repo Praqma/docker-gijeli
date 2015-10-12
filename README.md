@@ -1,5 +1,7 @@
-Gijeli Docker Server
+GiJeLi
 =============
+_This documentation is addressing the usage of **GiJeLi V19** or higher. For documentation of prior GiJeLi versions please click [here..](https://github.com/Praqma/docker-gijeli/blob/master/usage-v18-and-less.md)_
+
 ## Repositories
 
 1. [Gijeli Docker Repo.](https://registry.hub.docker.com/u/praqma/gijeli/)
@@ -7,34 +9,147 @@ Gijeli Docker Server
 
 ## Docker Image
 
-Contents of this repo. are used as context for building docker image of Praqma's gijeli server.
-Each change committed to this repo. triggers an automated build in jenkins from where every successful build pushes gijeli server image to Praqma's docker repo. issuing a unique _version nember_.
+Contents of this repo. are used as context for building docker image of Praqma's gijeli.
+Each change committed to this repo. triggers an automated build in jenkins from where every successful build of GiJeLi image is pushed to Praqma's docker-hub repo. issuing a unique _version nember_.
 
 jenkins page for this job can be visited [here](http://code.praqma.net/ci/view/GiJeLi/job/GiJeLi%20Docker%20Server/)...
 
-## Usage
+# Introduction to gijeli+
+GiJeLi is a subtraction of the words Git, Jekyll and Liquid which is the technology stack behind the GitHub Pages technology. At Praqma: The entire technology stack is wrapped up in a single Docker image - Including dynamic link validation. The docker images is used on clients during development and on Jenkins slaves as part of the continuous delivery pipeline in combination with the Josra Automated Git flow and the Git pretested integration plugin.
 
-You can render your jekyll website from [\<site-source>]() by using the following command:
+gijeli entertains _Power User_ and regular _User_
+
+## Pre-reqs.
+
+Linux - Have Docker up'n'running
+
+Mac. & Windows - Have Boot2Docker up'n'running
+
+>Note:- _make sure your source directory allows read and write permission to the running program, it is required for writing validation report into your source directory_
+
+## Pull docker image
+Run the given command to pull the latest image of gijeli+:
+```
+$ docker pull praqma/gijeli:[vNo.]
 
 ```
-docker run --rm -v <site-source>:/data -p <port>:4000 praqma/gijeli:<version-number> serve --force_polling -H 0.0.0.0
+# Usage:
+###1. Power User
+```
+linux / Mac:
+$ docker run -v $(pwd):/data -p <port>:4000 praqma/gijeli:[vNo.] <jekyll/linkchecker command>
+
+Windows:
+$ docker run -v /$(pwd):\\data -p <port>:4000 praqma/gijeli:[vNo.] <jekyll/linkchecker command>
+```
+## Examples:
+Being a power user you can exploit all features of tools bunddled in gijeli, **jekyll** and **linkchecker**  
+
+- given example is for serving jekyll pages located on **_Present Working Directory_** and watch changes that are made after serving pages, for more jekyll features see [this link](http://jekyllrb.com/docs/usage/)
+
+```
+linux / Mac:
+$ docker run -v $(pwd):/data -p <port>:4000 praqma/gijeli:[vNo.] jekyll serve --watch --force_polling -H 0.0.0.0
+→ access web pages at http://localhost:<port>
+
+Windows:
+$ docker run -v /$(pwd):\\data -p <port>:4000 praqma/gijeli:[vNo.] jekyll serve --watch --force_polling -H 0.0.0.0
+→ access web pages at http://<boot2docker IP>:<port>
+```
+- given example runs linkchecker on provided URL for pages rendered outside of container and stores validation report in html format, for more linkchecker features see [this link](http://wummel.github.io/linkchecker/)
+
+running linkchecker rquires _write permission_ to mounted directory which is _Present Working Directoy_ in this example
+```
+linux / Mac:
+$  docker run -v $(pwd):/data praqma/gijeli:[vNo.] linkchecker --check-css --check-html --complete --anchors --quiet -F=html/<directory-name>/<file-name>.html <URL>
+
+windows:
+$ docker run -v /$(pwd):\\data praqma/gijeli:[vNo.] linkchecker --check-css --check-html --complete --anchors --quiet -F=html/<directory-name>/<file-name>.html <URL>
+
+→ report will be saved in <directory-name> under <file-name> in Present Working Directory
 
 ```
 
-Available is a test script for running gijeli server image.
+###2. User
+```
+linux / Mac:
+$ docker run -v $(pwd):/data -p <port>:4000 praqma/gijeli:[vNo.] <option>
 
-The [\<site-source>]() is the directory on the Docker host with the source for the site. The site can be view as html on [http://\<host-ip>:\<port>]()
+Windows:
+$ docker run -v /$(pwd):\\data -p <port>:4000 praqma/gijeli:[vNo.] <option>
+```
+### Options
 
-Real life complete example ready for copy-paste:
+1. build _(build jekyll pages project in mounted directory)_
+2. serve _(renders jekyll web site located in mounted directory)_
+3. check _(runs linkchecker on provided URL-for pages rendered outside of container)_
+4. serve check _(serves jekyll pages and runs linkchecker on served pages within the same container)_
+
+## Examples:
+#### Build
+
+change your terminal’s present working directory to the source directory you want to build your jekyll project in, and run the following command:
+```
+linux / Mac:
+$ docker run -v $(pwd):/data praqma/gijeli:[vNo.] build
+
+windows:
+$ docker run -v /$(pwd):\\data praqma/gijeli:[vNo.] build
+```
+
+#### Serve
+
+change your terminal's working present directory to the directory containing your jekyll web project and run the following command:
+```
+linux / Mac:
+$ docker run -v $(pwd):/data -p <port>:4000 praqma/gijeli:[vNo.] serve
+→ access your  web at pages http://localhost:<port>
+
+windows:
+$ docker run -v /$(pwd):\\data -p <port>:4000 praqma/gijeli:[vNo.] serve
+→ access your  web pages at http://<boot2docker IP>:<port>
+```
+
+#### Check (Write permission required)
+
+_Use this option if your web project is NOT rendered into a container_
+
+change your terminal's present working directory to the directory you want to keep your linkchecker report and run the following command:
 
 ```
-docker run --rm -v $(pwd):/data -p 4000:4000  praqma/gijeli:v13 serve --force_polling -H 0.0.0.0
+linux / Mac:
+$  docker run -v $(pwd):/data praqma/gijeli:[vNo.] check <URL: for example. http://www.code-conf.com>
+
+windows:
+$ docker run -v /$(pwd):\\data praqma/gijeli:[vNo.] check <URL: for example http://www.code-conf.com>
+
+→ report will be saved in folder <report> under name <site_reprot.html>, in your mounted directory
 ```
+#### Serve Check (write permission required)
+_Use this option to serve and check your web project into the same container_
+
+change your terminal's present working directory to the directory containing your jekyll web project and run the following command:
+```
+linux / Mac:
+$ docker run -v $(pwd):/data -p <port>:4000 praqma/gijeli:[vNo.] serve check
+→ access your  web pages at http://localhost:<port>
+
+windows:
+$ docker run -v /$(pwd):\\data -p <port>:4000 praqma/gijeli:[vNo.] serve check
+→ access your  web pages at http://<boot2docker IP>:<port>
+
+→ linkchecker report will be saved in folder <report> under name <site_reprot.html>, in your mounted directory
+```
+# Handy Hacks:
+Are you a “one container for one process” kind of guy ?
+>You can benefit out of docker “--link” option to serve and check your website in separate containers, using gijeli image
+
+A dev. geek?... want to juggle all of the “jekyll” and “linkchecker” within gijeli image?
+>explore docker  “--entrypoint=/bin/bash” and sneak into the image
 
 
-## Support 
+## Support
 
 You are invited to seek support or place a request for new features by e-mailing our support team at [support@praqma.net]()
 
 _Note:_ Please, do mention **Praqma/gijeli** in your subject while mailing to our support team
-
