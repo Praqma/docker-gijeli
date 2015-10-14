@@ -30,7 +30,7 @@ if [ "${url}" == "" ]
 	then
 	echo Provide URL to Validate
 else
-	exec linkchecker --check-css --check-html --complete --anchors -F=html/report/site_report.html ${url}
+	exec linkchecker --check-css --check-html --complete --anchors -F=text/site_report.txt -F=html/report/site_report.html ${url}
 fi
 
 elif [ "${option}" == "jekyll" -o "${option}" == "linkchecker" ]
